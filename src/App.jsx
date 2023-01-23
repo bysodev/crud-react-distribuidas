@@ -21,6 +21,8 @@ import { FormAnimalEdit } from './hooks/formularios/edicion/relacionales/FormAni
 import { FormRazaEdit } from './hooks/formularios/edicion/relacionales/FormRaza'
 import { FormVeterinarioEdit } from './hooks/formularios/edicion/no-relacionales/FormVeterinario'
 import { FormAlimento } from './hooks/formularios/registro/relacionales/FormAlimento'
+import { FormAlimentoEdit } from './hooks/formularios/edicion/relacionales/FormAlimento'
+import { FormVitalidad } from './hooks/formularios/registro/no-relacionales/FormVitalidad'
 
 function App() {
 
@@ -35,7 +37,7 @@ function App() {
       <NavRegistro/>
       <Routes>
           {/* <Route path="/" element={FormVeterinario} /> */}
-          <Route path="/registrar-vitales" element={<FormVeterinario />} />
+          <Route path="/registrar-vitales" element={<FormVitalidad />} />
           <Route path="/registrar-potreros" element={<FormPotrero />} />
           <Route path="/registrar-animal" element={<FormAnimal />} />
           <Route path="/registrar-alimento" element={<FormAlimento />} />
@@ -50,10 +52,11 @@ function App() {
       <NavEditar/>
       <Routes>
           <Route path="/editar-vitales" element={<FormVeterinario />} />
-          <Route path="/editar-potreros" element={<FormPotrero />} />
+          <Route path="/editar-potreros" element={<FormPotreroEdit />} />
           <Route path="/editar-animal" element={<FormAnimalEdit />} />
-          <Route path="/editar-granja" element={<FormGranja />} />
-          <Route path="/editar-raza" element={<FormRaza />} />
+          <Route path="/editar-granja" element={<FormGranjaEdit />} />
+          <Route path="/editar-raza" element={<FormRazaEdit />} />
+          <Route path="/editar-alimento" element={<FormAlimentoEdit />} />
       </Routes>
     </>
   );
@@ -63,12 +66,15 @@ function App() {
      <UserProvider >
       <NavLinks />
 
+    <div className='d-flex justify-content-center flex-column'>
       <Routes>
         <Route path='/' element={ <Home />} />
         <Route path='/registrar/*' element={ <RegisterRoutes />} />
         <Route path='/editar/*' element={ <EditRoutes />} />
         <Route path='/*' element={ <Navigate to='/' /> } />
       </Routes>
+    </div>
+    
 
      </UserProvider>
      

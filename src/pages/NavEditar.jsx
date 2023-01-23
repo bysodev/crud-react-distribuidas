@@ -4,8 +4,8 @@ import { Link, NavLink} from 'react-router-dom'
 
 export const NavEditar = () => {
   return (
-    <nav className="navbar navbar-expand-lg" >
-        <div className="collapse navbar-collapse" id="navbarNav">
+    <nav className="navbar navbar-expand-lg d-flex m-3" >
+        <div className="collapse navbar-collapse justify-content-center" id="navbarNav">
             <ul className="navbar-nav">
                 <NavLink
                     className={ ({ isActive }) => `nav-link ${ isActive ? 'active' : '' }`}
@@ -26,6 +26,11 @@ export const NavEditar = () => {
                     className={ ({ isActive }) => `nav-link ${ isActive ? 'active' : '' }`}
                     to='/editar/editar-potreros'>
                     Potreros
+                </NavLink>
+                <NavLink
+                    className={ ({ isActive }) => `nav-link ${ isActive ? 'active' : '' }`}
+                    to='/editar/editar-alimento'>
+                    Alimentos
                 </NavLink>
                 <NavLink
                     className={ ({ isActive }) => `nav-link ${ isActive ? 'active' : '' }`}

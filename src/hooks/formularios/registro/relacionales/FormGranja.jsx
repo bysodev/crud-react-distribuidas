@@ -17,14 +17,16 @@ const {saveGranja} = useContext(UserContext)
                 initialValues={{ nombre_granja: '', tamanio_granja: '',  ubicacion: '' }}
                 validate={values => {
                     const errors = {};
+                    const msg = 'Oh noes! Este campo no puede estar vacio';
+
                     if ( !values.ubicacion ){
-                        errors.ubicacion = 'Required'
+                        errors.ubicacion = `${msg}`;
                     }
                     if (!values.nombre_granja) {
-                        errors.nombre_granja = 'Required';
+                        errors.nombre_granja = `${msg}`;
                     } 
                     if ( !values.tamanio_granja ){
-                        errors.tamanio_granja = 'Required'
+                        errors.tamanio_granja = `${msg}`;
                     }
                     return errors;
                 }}
@@ -34,6 +36,8 @@ const {saveGranja} = useContext(UserContext)
                     setSubmitting(false);
                     }, 400);
                     saveGranja(values)
+                    window.location.reload();
+
                 }}
                 >
                 {({
@@ -49,7 +53,6 @@ const {saveGranja} = useContext(UserContext)
 
                     <form onSubmit={handleSubmit} className="">
                         
-                        {errors.nombre_granja && touched.nombre_granja && errors.nombre_granja}
                         <Input
                             type="text"
                             name="nombre_granja"
@@ -60,8 +63,8 @@ const {saveGranja} = useContext(UserContext)
                             onBlur={handleBlur}
                             value={values.nombre_granja}
                         />
-                    
-                        {errors.tamanio_granja && touched.tamanio_granja && errors.tamanio_granja}
+                        {errors.nombre_granja && touched.nombre_granja && <p  className="text-danger"> { errors.nombre_granja} </p>}
+
                         <Input
                             type="text"
                             name="tamanio_granja"
@@ -72,8 +75,8 @@ const {saveGranja} = useContext(UserContext)
                             onBlur={handleBlur}
                             value={values.tamanio_granja}
                         />
+                        {errors.tamanio_granja && touched.tamanio_granja && <p  className="text-danger"> { errors.tamanio_granja} </p>}
 
-                        {errors.ubicacion && touched.ubicacion && errors.ubicacion}
                         <Input
                             type="text"
                             name="ubicacion"
@@ -84,6 +87,7 @@ const {saveGranja} = useContext(UserContext)
                             onBlur={handleBlur}
                             value={values.ubicacion}
                         />
+                        {errors.ubicacion && touched.ubicacion && <p  className="text-danger"> { errors.ubicacion} </p>}
                     
                     <div className="d-flex justify-content-between">
                         <button type="submit" className="btn btn-outline-success" disabled={isSubmitting} >

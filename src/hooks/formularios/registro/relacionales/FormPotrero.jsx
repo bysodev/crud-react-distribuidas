@@ -33,6 +33,7 @@ export const FormPotrero = () => {
                 setSubmitting(false);
                 }, 400);
                 savePotrero(values)
+                window.location.reload();
             }}
             >
             {({

@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Field, Formik } from "formik"; // Importamos el component <Formik />
 import { Form } from 'react-router-dom';
-import { Button, Card, CardBody, CardHeader, Container, FormFeedback, FormGroup, Input, Label } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, Container, FormFeedback, FormGroup, FormText, Input, Label } from 'reactstrap';
 import {UserContext} from '../../../../provider/UserContext'
 
 export const FormAnimal = () => {
@@ -17,13 +17,21 @@ export const FormAnimal = () => {
                 <Formik
                     initialValues={{ edad: '', genero: '',  potreroId: '',  razaId: '' }}
                     validate={values => {
+                        console.log('PASO POR AQUI');
                         const errors = {};
+                        const msg = 'Oh noes! Este campo no puede estar vacio';
                  
                         if (!values.edad) {
-                            errors.edad = 'Required';
+                            errors.edad = `${msg}`;
                         } 
                         if ( !values.genero ){
-                            errors.genero = 'Required'
+                            errors.genero = `${msg}`
+                        }
+                        if ( !values.potreroId ){
+                            errors.potreroId = `${msg}`
+                        }
+                        if ( !values.razaId ){
+                            errors.razaId = `${msg}`
                         }
                         return errors;
                     }}
@@ -33,6 +41,7 @@ export const FormAnimal = () => {
                         setSubmitting(false);
                         }, 400);
                         saveAnimal(values)
+                        window.location.reload();
                     }}
                     >
                     {({
@@ -52,74 +61,72 @@ export const FormAnimal = () => {
                                 type="number"
                                 placeholder="Edad"
                                 name="edad"
-                                className="mb-4"
                                 // className="form-control"
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 value={values.edad}
                             />
+                            {/* <FormText className="text-danger"> */}
+                                {errors.edad && touched.edad && <p  className="text-danger"> {errors.edad}</p>
+                                }
+                            {/* </FormText> */}
+
                      
                             {/* <label htmlFor="exampleFormControlInput1" className="form-label">Genero</label> */}
-                            <div role="group" aria-labelledby="my-radio-group" className="d-flex justify-content-evenly mb-3">
+                            <div role="group" aria-labelledby="my-radio-group" className="d-flex justify-content-evenly mb-3 mt-3">
                                 <label>
-                                <Field type="radio" name="genero" value="M" className="form-check-input me-2" />
+                                <Field type="radio" id="genero" name="genero" value="M" className="form-check-input me-2" />
                                 Masculino
                                 </label >
                                 <label>
-                                <Field type="radio" name="genero" value="F" className="form-check-input me-2" />
+                                <Field type="radio" id="genero" name="genero" value="F" className="form-check-input me-2" />
                                 Femenino
                                 </label>
                             </div>
-                           
-                          
-                           
+           
+                                {errors.genero && touched.genero && <p  className="text-danger"> {errors.genero}</p>}
+
+                            <div className="d-flex justify-content-between mb-4">
+                                <div className="w-50 me-sm-2">
+                                    <Field
+                                        as="select"
+                                        id="potreroId"
+                                        name="potreroId"
+                                        className="form-select  "
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                    >
+                                        <option value=''>POTRERO</option>
+                                        {potreros.map((dato,index) => (
+                                        <option key={index} value={dato.id}>{dato.nombre_potrero}</option>
+                                        ))}
+                                    </Field>
+                                    {errors.potreroId && touched.potreroId && <p  className="text-danger">{errors.potreroId}</p>}
                             
-                            {/* <label htmlFor="exampleFormControlInput1" className="form-label">Potrero</label> */}
-                            <Field
-                                as="select"
-                                id="potreroId"
-                                name="potreroId"
-                                className="form-select w-50 mb-4"
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                            >
-                                <option value=''>POTRERO</option>
-                                {potreros.map((dato,index) => (
-                                <option key={index} value={dato.id}>{dato.nombre_potrero}</option>
-                                ))}
-                            </Field>
-                            {/* <Input
-                                type="number"
-                                placeholder="Potrero (ID)"
-                                name="potreroId"
-                                className="mb-4"
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.potrero_id}
-                            /> */}
-                            {/* <label htmlFor="exampleFormControlInput1" className="form-label">Raza</label> */}
-                            <Field
-                                as="select"
-                                id="razaId"
-                                name="razaId"
-                                className="form-select w-50 mb-3"
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                            >
-                                <option value=''>RAZA</option>
-                                {razas.map((dato,index) => (
-                                <option key={index} value={dato.id} >{dato.nombre_raza}</option>
-                                ))}
-                            </Field>
-                            {/* <Input
-                                type="number"
-                                placeholder="RAZA (ID)"
-                                name="razaId"
-                                className="mb-4"
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.razaId}
-                            /> */}
+                                </div>
+                               
+                               <div className="w-50">
+                                <Field
+                                        as="select"
+                                        id="razaId"
+                                        name="razaId"
+                                        className="form-select"
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                    >
+                                        <option value=''>RAZA</option>
+                                        {razas.map((dato,index) => (
+                                        <option key={index} value={dato.id} >{dato.nombre_raza}</option>
+                                        ))}
+                                    </Field>
+                                    {errors.razaId && touched.razaId && <p  className="text-danger"> {errors.razaId}</p>
+                                    }
+                               </div>
+                               
+                            </div>
+                            
+                            
+            
                     
                         
                         <div className="d-flex justify-content-between">

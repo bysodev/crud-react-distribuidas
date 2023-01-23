@@ -6,46 +6,90 @@ import { Form } from 'react-router-dom';
 import {UserContext} from '../../../../provider/UserContext'
 
 export const FormVitalidad = () => {
+
+    const { vitalidades, saveVitalidad} = useContext(UserContext)
     
-    const {veterinario, setveterinario} = useContext(UserContext)
 
   return (
         <>
             {/* <h1>{alert(JSON.stringify( veterinario ))}</h1> */}
             <div className='d-flex justify-content-center'>
     <div className="card w-75">
-        <h5 className="card-header">Registrar un Veterinario</h5>
+        <h5 className="card-header">Registrar Vitalidad</h5>
         <div className="card-body m-2">
             <Formik
-            initialValues={{ name:'', email: '', telefono: '' }}
+            initialValues={{ 
+                presion:'', 
+                idAnimal: '', 
+                pulso_cardiaco: '',
+                tipo_sangre: "",
+                // veterinaria: {
+                    nombre_veterinaria: "",
+                    email_veterinaria: "",
+                    telefono_veterinaria: "",
+                // },
+                // vacunas: [
+                    // {
+                        nombre_vacuna: "",
+                        fabricante: "",
+                        dosis_vacuna: "",
+                    // }
+                // ],
+                // desparacitante: {
+                    nombre_desparacitante: "",
+                    fabricante: "",
+                    dosis: ""
+                // }
+            }}
             validate={values => {
+
                 const errors = {};
-                if ( !values.name ){
-                    errors.name = ` <h3>${Required}</h3>
-                    `
-                   
+                const msg = 'Oh noes! Este campo no puede estar vacio';
+                
+         
+                if (!values.presion) {
+                    errors.presion = `${msg}`;
+                } 
+                if ( !values.pulso_cardiaco ){
+                    errors.pulso_cardiaco = `${msg}`
                 }
-                if (!values.email) {
-                    errors.email = 'Required';
-                } else if (
-                    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-                ) {
-                    errors.email = 'Invalid email address';
+                if ( !values.tipo_sangre ){
+                    errors.tipo_sangre = `${msg}`
                 }
-                if ( !values.telefono ){
-                    errors.telefono = 'Required'
-                }
-
-
-
+          
                 return errors;
             }}
             onSubmit={(values, { setSubmitting }) => {
                 setTimeout(() => {
-                    setveterinario(values)
                 alert(JSON.stringify(values, null, 2));
                 setSubmitting(false);
                 }, 400);
+                const obj = {
+                    presion: values.presion, 
+                    idAnimal: values.idAnimal, 
+                    pulso_cardiaco: values.pulso_cardiaco,
+                    tipo_sangre: values.tipo_sangre,
+                    veterinaria: {
+                        nombre_veterinaria: values.nombre_veterinaria,
+                        email_veterinaria: values.email_veterinaria,
+                        telefono_veterinaria: values.telefono_veterinaria,
+                    },
+                    vacunas: [
+                        {
+                            nombre_vacuna: values.nombre_vacuna,
+                            fabricante: values.fabricante,
+                            dosis_vacuna: values.dosis_vacuna,
+                        }
+                    ],
+                    desparacitante: {
+                        nombre_desparacitante: values.nombre_desparacitante,
+                        fabricante: values.fabricante,
+                        dosis: values.dosis
+                    }
+                }
+                alert(JSON.stringify(obj, null, 2));
+
+                // saveVitalidad(obj);
             }}
             >
             {({
@@ -60,43 +104,136 @@ export const FormVitalidad = () => {
             }) => (
 
                 <form onSubmit={handleSubmit} className="">
-                    {errors.name && touched.name && errors.name}
-                    <Input
-                        type="name"
-                        name="name"
-                        className="mb-4"
-                        placeholder="Nombre"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.name}
-                    />
-                    
-                    {errors.email && touched.email && errors.email}
-                    <Input
-                        type="email"
-                        name="email"
-                        className="mb-4"
 
-                        // className="form-control"
-                        placeholder="Email"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.email}
-                    />
-                 
-                    {errors.telefono && touched.telefono && errors.telefono}
                     <Input
                         type="text"
-                        name="telefono"
-                        placeholder="Telefono"
+                        name="presion"
                         className="mb-4"
-
-                        // className="form-control"
+                        placeholder="Presion Arterial"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.telefono}
+                        value={values.presion}
                     />
-                 
+                    {errors.presion && touched.presion && <p  className="text-danger"> {errors.presion}</p>}
+
+                    <Input
+                        type="text"
+                        name="pulso_cardiaco"
+                        className="mb-4"
+                        placeholder="Pulso Arterial"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.pulso_cardiaco}
+                    />
+                    {errors.pulso_cardiaco && touched.pulso_cardiaco && <p  className="text-danger"> {errors.pulso_cardiaco}</p>}
+
+                    <Input
+                        type="text"
+                        name="tipo_sangre"
+                        className="mb-4"
+                        placeholder="Tipo de San"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.tipo_sangre}
+                    />
+                    {errors.tipo_sangre && touched.tipo_sangre && <p  className="text-danger"> {errors.tipo_sangre}</p>}
+
+                    <hr />
+                    
+                    <Input
+                        type="text"
+                        name="nombre_veterinaria"
+                        className="mb-4"
+                        placeholder="Nombre Veterinaria"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.nombre_veterinaria}
+                    />
+
+                    <Input
+                        type="text"
+                        name="email_veterinaria"
+                        className="mb-4"
+                        placeholder="Email Veterinaria"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.email_veterinaria}
+                    />
+
+                    <Input
+                        type="text"
+                        name="telefono_veterinaria"
+                        className="mb-4"
+                        placeholder="Telefono Veterinaria"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.telefono_veterinaria}
+                    />
+
+                    <hr />
+
+                    <Input
+                        type="text"
+                        name="nombre_vacuna"
+                        className="mb-4"
+                        placeholder="Nombre Vacuna"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.nombre_vacuna}
+                    />
+
+                    <Input
+                        type="text"
+                        name="fabricante"
+                        className="mb-4"
+                        placeholder="Fabricante"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.fabricante}
+                    />
+
+                    <Input
+                        type="text"
+                        name="dosis_vacuna"
+                        className="mb-4"
+                        placeholder="Dosis"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.dosis_vacuna}
+                    />
+
+                    <hr />
+
+                    <Input
+                        type="text"
+                        name="nombre_desparacitante"
+                        className="mb-4"
+                        placeholder="Nombre Desparacitante"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.nombre_desparacitante}
+                    />
+
+                    <Input
+                        type="text"
+                        name="fabricante"
+                        className="mb-4"
+                        placeholder="Fabricante"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.fabricante}
+                    />
+
+                    <Input
+                        type="text"
+                        name="dosis"
+                        className="mb-4"
+                        placeholder="Dosis"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.dosis}
+                    />
+
                  <div className="d-flex justify-content-between">
                     <button type="submit" className="btn btn-outline-success" disabled={isSubmitting} >
                         Submit

@@ -17,10 +17,11 @@ export const FormRaza = () => {
             initialValues={{ nombre_raza:''}}
             validate={values => {
                 const errors = {};
-                if ( !values.nombre_raza ){
-                    errors.nombre_raza = 'Required';
-                }
+                const msg = 'Oh noes! Este campo no puede estar vacio';
 
+                if ( !values.nombre_raza ){
+                    errors.nombre_raza = `${msg}`;
+                }
 
                 return errors;
             }}
@@ -30,6 +31,7 @@ export const FormRaza = () => {
                 setSubmitting(false);
                 }, 400);
                 saveRaza(values)
+                window.location.reload();
             }}
             >
             {({
@@ -44,7 +46,6 @@ export const FormRaza = () => {
             }) => (
 
                 <form onSubmit={handleSubmit} className="">
-                    {errors.nombre_raza && touched.nombre_raza && errors.nombre_raza}
                     <Input
                         type="text"
                         name="nombre_raza"
@@ -54,6 +55,7 @@ export const FormRaza = () => {
                         onBlur={handleBlur}
                         value={values.nombre_raza}
                     />
+                    {errors.nombre_raza && touched.nombre_raza && <p  className="text-danger"> {errors.nombre_raza}</p>}
                     
                     
                  <div className="d-flex justify-content-between">

@@ -5,7 +5,7 @@ import { Button, Card, CardBody, CardHeader, Container, FormFeedback, FormGroup,
 import {UserContext} from '../../../../provider/UserContext'
 
 export const FormAlimento = () => {
-    const { saveAnimal, razas, potreros} = useContext(UserContext)
+    const { saveAlimento, animales} = useContext(UserContext)
     // console.log(razas)
 
   return (
@@ -15,15 +15,19 @@ export const FormAlimento = () => {
             <h5 className="card-header">Registrar un alimento</h5>
             <div className="card-body m-2">
                 <Formik
-                    initialValues={{ id_animales: '', cantidad_raciones: '',  nombre_alimentacion: '',  razaId: '' }}
+                    initialValues={{ animalesId: '', cantidad_raciones: '',  nombre_alimentacion: '' }}
                     validate={values => {
                         const errors = {};
+                        const msg = 'Oh noes! Este campo no puede estar vacio';
                  
-                        if (!values.edad) {
-                            errors.edad = 'Required';
+                        if (!values.animalesId) {
+                            errors.animalesId = `${msg}`;
                         } 
                         if ( !values.cantidad_raciones ){
-                            errors.cantidad_raciones = 'Required'
+                            errors.cantidad_raciones = `${msg}`;
+                        }
+                        if ( !values.nombre_alimentacion ){
+                            errors.nombre_alimentacion = `${msg}`;
                         }
                         return errors;
                     }}
@@ -32,7 +36,8 @@ export const FormAlimento = () => {
                         alert(JSON.stringify(values, null, 2));
                         setSubmitting(false);
                         }, 400);
-                        saveAnimal(values)
+                        saveAlimento(values)
+                        window.location.reload();
                     }}
                     >
                     {({
@@ -58,22 +63,26 @@ export const FormAlimento = () => {
                                 onBlur={handleBlur}
                                 value={values.nombre_alimentacion}
                             />
+                            {errors.nombre_alimentacion && touched.nombre_alimentacion && <p  className="text-danger"> {errors.nombre_alimentacion}</p>}
+
                      
                            
                             {/* <label htmlFor="exampleFormControlInput1" className="form-label">Potrero</label> */}
                             <Field
                                 as="select"
-                                id="id_animales"
-                                name="id_animales"
-                                className="form-select w-50 mb-4"
+                                id="animalesId"
+                                name="animalesId"
+                                className="form-select mb-4"
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                             >
                                 <option value=''>ANIMAL</option>
                                 {animales.map((dato,index) => (
-                                <option key={index} value={dato.id}>{dato.nombre_potrero}</option>
+                                <option key={index} value={dato.id}>{dato.edad}</option>
                                 ))}
                             </Field>
+                            {errors.animalesId && touched.animalesId && <p  className="text-danger"> {errors.animalesId}</p>}
+
 
                             <Input
                                 type="text"
@@ -85,6 +94,8 @@ export const FormAlimento = () => {
                                 onBlur={handleBlur}
                                 value={values.cantidad_raciones}
                             />
+                            {errors.cantidad_raciones && touched.cantidad_raciones && <p  className="text-danger"> {errors.cantidad_raciones}</p>}
+
                            
                         
                         <div className="d-flex justify-content-between">

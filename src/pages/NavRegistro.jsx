@@ -8,8 +8,8 @@ export const NavRegistro = () => {
 
   return (
     <>
-        <nav className="navbar navbar-expand-lg" >
-            <div className="collapse navbar-collapse" id="navbarNav">
+        <nav className="navbar navbar-expand-lg d-flex m-3" >
+            <div className="collapse navbar-collapse justify-content-center" id="navbarNav">
                 <ul className="navbar-nav">
                     <NavLink
                         className={ ({ isActive }) => `nav-link ${ isActive ? 'active' : '' }`}

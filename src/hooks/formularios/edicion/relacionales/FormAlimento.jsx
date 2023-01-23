@@ -4,48 +4,60 @@ import { Button, Card, CardBody, CardHeader, Container, FormFeedback, FormGroup,
 import { Form } from 'react-router-dom';
 import { UserContext } from "../../../../provider/UserContext";
 
-export const FormPotreroEdit = () => {
+export const FormAlimentoEdit = () => {
 
-    const {editPotrero, deletePotrero, potreros, findPotrero} = useContext(UserContext)
+    const {editAlimento, deleteAlimento, alimentos, animales, findAlimentacion} = useContext(UserContext)
 
-    const [potrero, setpotrero] = useState({})
+    const [alimento, setalimento] = useState({})
     const [msg, setmsg] = useState('')
 
-    const seleccionarPotrero = (potrero, causa) => {
-        setpotrero(potrero)
+
+    const seleccionaralimento = (alimento, causa) => {
+        setalimento(alimento)
         if(causa==='Editar'){
             setmodalEditar(true)
         }
         if(causa==='Eliminar'){
             setmodalEliminar(true)
         }
+        mostrar()
+    }
+
+    function mostrar(){
+        console.log(alimento.id)
     }
 
     const handleChange=e=>{
         const {name, value}=e.target;
-        setpotrero((prevState)=>({
+        setalimento((prevState)=>({
             ...prevState,
             [name]: value
         }));
     }
 
     const editar = () => {
-        potrero.id = parseInt( potrero.id)
-        // alert( JSON.stringify(potrero))
-        editPotrero(potrero)
+        alimento.id = parseInt( alimento.id)
+        alert( JSON.stringify(alimento))
+        editAlimento(alimento)
         setmodalEditar(false)
     }
     const eliminar = async () => {
+        alimento.id = parseInt( alimento.id)
+        findAlimentacion(alimento);
+        // alert( JSON.stringify(alimento))
+        // deleteAlimento(alimento)
+        // setmodalEditar(false)
+
         setmodalEliminar(false)
-        potrero.id = parseInt( potrero.id)
-        let result = await findPotrero(potrero);
-        // alert( JSON.stringify(potrero))
-        // deletePotrero(potrero)
+        alimento.id = parseInt( alimento.id)
+        let result = await findAlimentacion(alimento);
+        // alert( JSON.stringify(alimento))
+        // deletealimento(alimento)
         if( result ){
-            deletePotrero(potrero)
+            deleteAlimento(alimento)
             setmsg(
                 {
-                    msg: `Se logro eliminar el potrero ${potrero.nombre_potrero} exitosamente.`,
+                    msg: `Se logro eliminar el alimento ${alimento.nombre_alimentacion} exitosamente.`,
                     clase: 'text-success'
                 })
             setmodalConfirmacion(true)
@@ -53,13 +65,12 @@ export const FormPotreroEdit = () => {
         if( !result ){
             setmsg(
                 {
-                    msg: `No puede eliminar el potrero ${potrero.nombre_potrero}, ya que cuenta con animales.`,
+                    msg: `No puede eliminar el alimento ${alimento.nombre_alimentacion}, ya que cuenta con animales.`,
                     clase: 'text-danger'
                 })
             
             setmodalConfirmacion(true)
         }
-
     }
 
     const pafinalizar = () => {
@@ -79,22 +90,22 @@ export const FormPotreroEdit = () => {
             <tr>
                 {/* <th>Identificador</th> */}
                 <th>Nombre</th>
-                <th>Hectarias</th>
-                <th>Tipo de Suelo</th>
+                <th>Raciones</th>
+                <th>Animal (ID)</th>
                 <th>Acciones</th>
             </tr>
             </thead>
             <tbody>
             
-            {potreros.map((dato,index) =>  (
+            {alimentos.map((dato,index) =>  (
                 <tr key={index}>
                     {/* <td>{dato.id}</td> */}
-                    <td>{dato.nombre_potrero}</td>
-                    <td>{dato.hectareas}</td>
-                    <td>{dato.tipo_suelo}</td>
+                    <td>{dato.nombre_alimentacion}</td>
+                    <td>{dato.cantidad_raciones}</td>
+                    <td>{dato.animalesId}</td>
                     <td>
-                        <input onClick={() =>  seleccionarPotrero(dato, 'Editar') } type="button" value="Editar" className="btn btn-outline-primary me-3"/>
-                        <input onClick={() =>  seleccionarPotrero(dato, 'Eliminar') } type="button" value="Eliminar" className="btn btn-outline-danger"/>
+                        <input onClick={() =>  seleccionaralimento(dato, 'Editar') } type="button" value="Editar" className="btn btn-outline-primary me-3"/>
+                        <input onClick={() =>  seleccionaralimento(dato, 'Eliminar') } type="button" value="Eliminar" className="btn btn-outline-danger"/>
                     </td>
                 </tr>
             ))}
@@ -105,7 +116,7 @@ export const FormPotreroEdit = () => {
     <Modal isOpen={modalEditar}>
         <ModalHeader>
         <div>
-            <h3>Editar potrero</h3>
+            <h3>Editar alimento</h3>
         </div>
         </ModalHeader>
         <ModalBody>
@@ -114,28 +125,35 @@ export const FormPotreroEdit = () => {
         <label>NOMBRE</label>
             <Input
                 type="text"
-                name="nombre_potrero"
+                name="nombre_alimentacion"
                 className="mb-3"
                 onChange={handleChange}
-                value={potrero.nombre_potrero}
+                value={alimento.nombre_alimentacion}
             />
 
-            <label>HECTARIASs</label>
+            <label>RACIONES</label>
             <Input
                 type="text"
                 name="tamanio_granaj"
                 className="mb-3"
                 onChange={handleChange}
-                value={potrero.hectareas}
+                value={alimento.cantidad_raciones}
             />
-            <label>TIPO DE SUELO</label>
-            <Input
-                type="text"
-                name="tipo_suelo"
-                className="mb-3"
+            {/* <label>ANIMAL</label>
+            <select
+                id="animalesId"
+                name="animalesId"
+                className="form-select"
                 onChange={handleChange}
-                value={potrero.tipo_suelo}
-            />
+                value={alimento.animalesId} 
+            >
+                { !!(alimento.id) ? <option value={0}>Selecciona alguno</option> : ''}
+                {
+                    animales.map((dato,index) => (
+                        parseInt(alimento.animalesId) === parseFloat( dato.id ) ? <option key={index} value={dato.id} selected>Identificador: {dato.id}</option> :  <option key={index} value={dato.id}>Identificador: {dato.id}</option>
+                    ))
+                }
+            </select> */}
             <br />
         </div>
         </ModalBody>
@@ -154,10 +172,10 @@ export const FormPotreroEdit = () => {
 
     <Modal isOpen={modalEliminar}>
         <ModalBody>
-          Estás Seguro que deseas eliminar potrero {potrero && potrero.nombre_potrero}
+          Estás Seguro que deseas eliminar alimento {alimento && alimento.nombre_alimentacion}
         </ModalBody>
         <ModalFooter>
-          <button className="btn btn-danger" onClick={()=>eliminar()}>
+          <button className="btn btn-danger " onClick={()=>eliminar()}>
             Sí
           </button>
           <button
@@ -183,6 +201,10 @@ export const FormPotreroEdit = () => {
           </button>
         </ModalFooter>
     </Modal>
+    
+
+   
+    
    
 </>
     );

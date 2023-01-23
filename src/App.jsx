@@ -19,7 +19,7 @@ import { FormPotreroEdit } from './hooks/formularios/edicion/relacionales/FormPo
 import { FormGranjaEdit } from './hooks/formularios/edicion/relacionales/FormGranja'
 import { FormAnimalEdit } from './hooks/formularios/edicion/relacionales/FormAnimal'
 import { FormRazaEdit } from './hooks/formularios/edicion/relacionales/FormRaza'
-import { FormVeterinarioEdit } from './hooks/formularios/edicion/no-relacionales/FormVeterinario'
+import { FormVitalidadEdit } from './hooks/formularios/edicion/no-relacionales/FormVitalidad'
 import { FormAlimento } from './hooks/formularios/registro/relacionales/FormAlimento'
 import { FormAlimentoEdit } from './hooks/formularios/edicion/relacionales/FormAlimento'
 import { FormVitalidad } from './hooks/formularios/registro/no-relacionales/FormVitalidad'
@@ -51,7 +51,7 @@ function App() {
     <>
       <NavEditar/>
       <Routes>
-          <Route path="/editar-vitales" element={<FormVeterinario />} />
+          <Route path="/editar-vitales" element={<FormVitalidadEdit />} />
           <Route path="/editar-potreros" element={<FormPotreroEdit />} />
           <Route path="/editar-animal" element={<FormAnimalEdit />} />
           <Route path="/editar-granja" element={<FormGranjaEdit />} />

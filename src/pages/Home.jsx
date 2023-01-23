@@ -1,21 +1,46 @@
 import React, { useContext } from 'react'
 import { useState } from 'react'
+import CardH from '../components/CardH';
 import {FormAnimal} from '../hooks/formularios/registro/relacionales/FormAnimal';
 import {UserContext} from '../provider/UserContext'
 
 
 const Home = () => {
 
-  const { animales, veterinario, setveterinario} = useContext(UserContext)
-  console.log( animales )
-  const [cards, setcards] = useState([ 
-    {src: '/vite.svg', title: 'Desayunos', text:'El desayuno puede ser recomendado o realizado al gusto, por lo general se trata de llevar uno rico en proteinas con su respectivo bebida (batidos, jugos, gelatinas, ...). '}, 
-    {src: '/vite.svg', title: 'Desayunos', text:'El desayuno puede ser recomendado o realizado al gusto, por lo general se trata de llevar uno rico en proteinas con su respectivo bebida (batidos, jugos, gelatinas, ...). '}, 
-    {src: '/vite.svg', title: 'Desayunos', text:'El desayuno puede ser recomendado o realizado al gusto, por lo general se trata de llevar uno rico en proteinas con su respectivo bebida (batidos, jugos, gelatinas, ...). '}  ])
+  const { animales, razas, alimentos, vitalidades, granjas, potreros} = useContext(UserContext)
+  console.log( animales, razas, alimentos, vitalidades, granjas, potreros )
+ 
   return (
     <>
       {
       }
+
+  <div className='d-flex'>
+      <div className='content-cards  me-5 d-flex flex-wrap justify-content-around'>
+            <CardH title={'ANIMALES'} description={`El total de registros es de ${animales.length}`} />
+      </div>
+
+      <div className='content-cards me-5 d-flex flex-wrap justify-content-around'>
+            <CardH title={'RAZAS'} description={`El total de registros es de ${razas.length}`} />
+      </div>
+
+      <div className='content-cards me-5 d-flex flex-wrap justify-content-around'>
+            <CardH title={'ALIMENTOS'} description={`El total de registros es de ${alimentos.length}`} />
+      </div>
+
+      <div className='content-cards me-5 d-flex flex-wrap justify-content-around'>
+            <CardH title={'GRANJAS'} description={`El total de registros es de ${granjas.length}`} />
+      </div>
+
+      <div className='content-cards me-5 d-flex flex-wrap justify-content-around'>
+            <CardH title={'POTREROS'} description={`El total de registros es de ${potreros.length}`} />
+      </div>
+
+      <div className='content-cards me-5 d-flex flex-wrap justify-content-around'>
+            <CardH title={'VITALES'} description={`El total de registros es de ${vitalidades.length}`} />
+      </div>
+  </div>
+     
 
 
 

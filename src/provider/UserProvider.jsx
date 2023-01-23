@@ -12,7 +12,9 @@ const URL_GET_ANIMAL = 'http://localhost:8082/animal/get'
 const URL_GET_GANJA = 'http://localhost:8082/granja/get'
 const URL_GET_POTRERO = 'http://localhost:8082/potrero/get'
 const URL_GET_ALIMENTACION = 'http://localhost:8082/alimentacion/get'
-const URL_GET_VITALIDAD = 'http://localhost:8082/alimentacion/get'
+
+// NO SQL 
+const URL_GET_VITALIDAD = 'http://localhost:8083/vitalidad/get'
 
 
 // const user = {
@@ -32,7 +34,7 @@ export const UserProvider = ({children}) => {
     const [granjas, setgranjas] = useState([{nombre_granja: '', tamanio_granja: '', ubicacion: ''}])
     const [alimentos, setalimentos] = useState([{nombre_granja: '', tamanio_granja: '', ubicacion: ''}])
     const [animal, setanimal] = useState({genero: '', edad: ''})
-    const [vitalidades, setvitalidad] = useState({})
+    const [vitalidades, setvitalidad] = useState([])
     // A modo prueba
     const [cartItems, setcartItems] = useState([])
 
@@ -49,7 +51,12 @@ export const UserProvider = ({children}) => {
       getRazas();
       getAlimentos();
       getVitalidad();
+      getVitalidad();
     }, [])
+
+
+    // SQL -----------------------------------------------------------------------------------------------
+
 
     const saveAnimal = async (data) => {
       const res = await axios.post('http://localhost:8082/animal/add',data)
@@ -73,11 +80,6 @@ export const UserProvider = ({children}) => {
 
     const saveAlimento = async (data) => {
       const res = await axios.post('http://localhost:8082/alimentacion/add',data)
-      console.log(res)
-    }
-
-    const saveVitalidad = async (data) => {
-      const res = await axios.post('http://localhost:8082/vitalidad/add',data)
       console.log(res)
     }
 
@@ -105,7 +107,7 @@ export const UserProvider = ({children}) => {
       const res = await axios.put(`http://localhost:8082/alimentacion/update/${data.id}`,data)
       console.log(res)
     }
-
+ 
     const deleteRaza = async (data) => {
       const res = await axios.delete(`http://localhost:8082/raza/delete/${data.id}`,data)
       console.log(res)
@@ -130,7 +132,6 @@ export const UserProvider = ({children}) => {
       const res = await axios.delete(`http://localhost:8082/animal/delete/${data.id}`,data)
       console.log(res)
     }
-
 
 
     const getUsuarios = async () => {
@@ -164,10 +165,29 @@ export const UserProvider = ({children}) => {
       // console.log(res)
       setalimentos(res.data)
     }
+
+
+    // NO SQL -----------------------------------------------------------------------------------------------
+
+    const saveVitalidad = async (data) => {
+      console.log(data);
+      await axios.post('http://localhost:8083/vitalidad/add',data)
+    }
+
+    const editVitalidad = async (data) => {
+      const res = await axios.put(`http://localhost:8083/vitalidad/update`,data)
+      console.log(res)
+    }
+
     const getVitalidad = async () => {
       const res = await axios.get(URL_GET_VITALIDAD)
       // console.log(res)
       setvitalidad(res.data)
+    }
+
+    const deleteVitalidad = async (data) => {
+      const res = await axios.delete(`http://localhost:8083/vitalidad/delete/${data.id}`,data)
+      console.log(res)
     }
 
     const [user, setuser] = useState({
@@ -217,10 +237,21 @@ export const UserProvider = ({children}) => {
       }
       return true;
     }
+
+    const findAnimalObj = async (pot) => {
+      const res = await axios.get( `http://localhost:8082/animal/get` )
+      const {data} = res;
+      let obj = {}
+      for( let siup of data ){
+        obj['']
+      }
+
+      return 
+    }
     
     return (
         // <UserContext.Provider value={{ hola: 'Mundo', user: user}}>
-        <UserContext.Provider value={{vitalidades, saveVitalidad, deleteAnimal, findRaza, findAlimentacion, deleteGranja, getPotreros, deletePotrero, findGranja, findPotrero, deleteAlimento, editAlimento, alimentos, deleteRaza, editRaza, editPotrero, editGranja, editAnimal, saveAlimento, saveRaza, savePotrero, saveGranja, saveAnimal, granjas, potreros, razas, animales, guardado, animales, granjas, potreros, razas, user, setuser, products, setproducts, users, setusers, cartItems, setcartItems}}>
+        <UserContext.Provider value={{deleteVitalidad, editVitalidad, vitalidades, saveVitalidad, deleteAnimal, findRaza, findAlimentacion, deleteGranja, getPotreros, deletePotrero, findGranja, findPotrero, deleteAlimento, editAlimento, alimentos, deleteRaza, editRaza, editPotrero, editGranja, editAnimal, saveAlimento, saveRaza, savePotrero, saveGranja, saveAnimal, granjas, potreros, razas, animales, guardado, animales, granjas, potreros, razas, user, setuser, products, setproducts, users, setusers, cartItems, setcartItems}}>
           {children}
         </UserContext.Provider>
     )

@@ -35,6 +35,8 @@ export const FormAnimalEdit = () => {
         animal.potreroId = parseInt( animal.potreroId)
         alert( JSON.stringify(animal))
         editAnimal(animal)
+        window.location.reload();
+
         // setmodalEditar(false)
 
     }
@@ -52,6 +54,29 @@ export const FormAnimalEdit = () => {
           })
   
       setmodalConfirmacion(true)
+    }
+
+    const retornaRaza = (id) => {
+      console.log(id)
+      for( let raza of razas){
+        // console.log(raza.id)
+        if( parseInt( raza.id ) === parseInt( id ) ){
+          console.log('LO ENCONTRO')
+          return raza.nombre_raza;
+        }
+      }
+    }
+
+    const retornaPotrero = (id) => {
+      console.log(id)
+      for( let potrero of potreros){
+        // console.log(potrero.id)
+        if( parseInt( potrero.id ) === parseInt( id ) ){
+          console.log('LO ENCONTRO')
+          return potrero.nombre_potrero;
+        }
+      }
+
     }
 
   
@@ -87,10 +112,12 @@ export const FormAnimalEdit = () => {
                         {/* <td>{dato.id}</td> */}
                         <td>{dato.edad}</td>
                         <td>{dato.genero}</td>
-                        <td>{dato.razaId}</td>
-                        <td>{dato.potreroId}</td>
+                        <td>{ retornaRaza(dato.razaId)  }</td>
+                        {/* <td>{dato.razaId}</td> */}
+                        <td>{ retornaPotrero(dato.potreroId)  }</td>
+                        {/* <td>{dato.potreroId}</td> */}
                         <td>
-                            <input onClick={() =>  seleccionarAnimal(dato, 'Editar') } type="button" value="Editar" className="btn btn-outline-primary"/>
+                            <input onClick={() =>  seleccionarAnimal(dato, 'Editar') } type="button" value="Editar" className="btn btn-outline-primary me-3"/>
                             <input onClick={() =>  seleccionarAnimal(dato, 'Eliminar') } type="button" value="Eliminar" className="btn btn-outline-danger"/>
                         </td>
                     </tr>

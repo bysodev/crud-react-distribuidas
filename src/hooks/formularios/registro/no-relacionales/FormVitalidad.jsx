@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Formik } from "formik"; // Importamos el component <Formik />
+import { Field, Formik } from "formik"; // Importamos el component <Formik />
 import { Button, Card, CardBody, CardHeader, Container, FormFeedback, FormGroup, Input, Label } from 'reactstrap';
 import { Form } from 'react-router-dom';
 
@@ -7,8 +7,10 @@ import {UserContext} from '../../../../provider/UserContext'
 
 export const FormVitalidad = () => {
 
-    const { vitalidades, saveVitalidad} = useContext(UserContext)
+    const { vitalidades, saveVitalidad, animales} = useContext(UserContext)
     
+    // <td>{ retornaPotrero(dato.potreroId)  }</td>
+    // 
 
   return (
         <>
@@ -31,7 +33,7 @@ export const FormVitalidad = () => {
                 // vacunas: [
                     // {
                         nombre_vacuna: "",
-                        fabricante: "",
+                        fabricante_vacuna: "",
                         dosis_vacuna: "",
                     // }
                 // ],
@@ -46,7 +48,9 @@ export const FormVitalidad = () => {
                 const errors = {};
                 const msg = 'Oh noes! Este campo no puede estar vacio';
                 
-         
+                if (!values.idAnimal) {
+                    errors.idAnimal = `${msg}`;
+                } 
                 if (!values.presion) {
                     errors.presion = `${msg}`;
                 } 
@@ -60,10 +64,8 @@ export const FormVitalidad = () => {
                 return errors;
             }}
             onSubmit={(values, { setSubmitting }) => {
-                setTimeout(() => {
-                alert(JSON.stringify(values, null, 2));
+                
                 setSubmitting(false);
-                }, 400);
                 const obj = {
                     presion: values.presion, 
                     idAnimal: values.idAnimal, 
@@ -77,8 +79,8 @@ export const FormVitalidad = () => {
                     vacunas: [
                         {
                             nombre_vacuna: values.nombre_vacuna,
-                            fabricante: values.fabricante,
-                            dosis_vacuna: values.dosis_vacuna,
+                            fabricante: values.fabricante_vacuna,
+                            dosis: values.dosis_vacuna,
                         }
                     ],
                     desparacitante: {
@@ -87,9 +89,10 @@ export const FormVitalidad = () => {
                         dosis: values.dosis
                     }
                 }
-                alert(JSON.stringify(obj, null, 2));
 
-                // saveVitalidad(obj);
+                saveVitalidad(obj);
+                window.location.reload();
+
             }}
             >
             {({
@@ -104,6 +107,22 @@ export const FormVitalidad = () => {
             }) => (
 
                 <form onSubmit={handleSubmit} className="">
+
+                    <Field
+                        as="select"
+                        id="idAnimal"
+                        name="idAnimal"
+                        className="form-select mb-4"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                    >
+                        <option value=''>ANIMAL (ID)</option>
+                        {animales.map((dato,index) => (
+                            <option key={index} value={dato.id}>{dato.id}</option>
+                        ))}
+                        
+                    </Field>
+                    {errors.idAnimal && touched.idAnimal && <p  className="text-danger"> {errors.idAnimal}</p>}
 
                     <Input
                         type="text"
@@ -184,12 +203,12 @@ export const FormVitalidad = () => {
 
                     <Input
                         type="text"
-                        name="fabricante"
+                        name="fabricante_vacuna"
                         className="mb-4"
                         placeholder="Fabricante"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.fabricante}
+                        value={values.fabricante_vacuna}
                     />
 
                     <Input

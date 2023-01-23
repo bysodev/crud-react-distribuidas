@@ -34,6 +34,8 @@ export const FormGranjaEdit = () => {
         // alert( JSON.stringify(granja))
         editGranja(granja)
         setmodalEditar(false)
+        window.location.reload();
+
     }
 
     const eliminar = async () => {

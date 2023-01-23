@@ -37,9 +37,11 @@ export const FormAlimentoEdit = () => {
 
     const editar = () => {
         alimento.id = parseInt( alimento.id)
-        alert( JSON.stringify(alimento))
+        // alert( JSON.stringify(alimento))
         editAlimento(alimento)
         setmodalEditar(false)
+        window.location.reload();
+
     }
     const eliminar = async () => {
         alimento.id = parseInt( alimento.id)
@@ -72,6 +74,18 @@ export const FormAlimentoEdit = () => {
             setmodalConfirmacion(true)
         }
     }
+
+    const retornaAnimal = (id) => {
+        console.log(id)
+        for( let animal of animales){
+          // console.log(animal.id)
+          if( parseInt( animal.id ) === parseInt( id ) ){
+            console.log('LO ENCONTRO')
+            return animal.nombre_potrero;
+          }
+        }
+  
+      }
 
     const pafinalizar = () => {
         setmodalConfirmacion(false)

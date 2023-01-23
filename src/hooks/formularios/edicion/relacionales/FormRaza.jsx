@@ -35,6 +35,8 @@ export const FormRazaEdit = () => {
         // alert( JSON.stringify(raza))
         editRaza(raza)
         setmodalEditar(false)
+        window.location.reload();
+
     }
 
     const eliminar = async () => {

@@ -34,6 +34,8 @@ export const FormPotreroEdit = () => {
         // alert( JSON.stringify(potrero))
         editPotrero(potrero)
         setmodalEditar(false)
+        window.location.reload();
+
     }
     const eliminar = async () => {
         setmodalEliminar(false)
